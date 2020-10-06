@@ -22,6 +22,7 @@ namespace MyMusicApp
     /// </summary>
     sealed partial class App : Application
     {
+        bool isInBackgroundMode = false;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,6 +31,9 @@ namespace MyMusicApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            this.EnteredBackground += App_EnteredBackground;
+            this.LeavingBackground += App_LeavingBackground;
         }
 
         /// <summary>
@@ -96,5 +100,17 @@ namespace MyMusicApp
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        #region BackgrounEvents
+        private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            isInBackgroundMode = true;
+        }
+
+        private void App_LeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            isInBackgroundMode = false;
+        }
+        #endregion
     }
 }

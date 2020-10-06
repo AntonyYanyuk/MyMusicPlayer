@@ -35,6 +35,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Globalization.DateTimeFormatting;
 using System.Runtime.Serialization;
+using Windows.ApplicationModel;
+using Windows.UI.WindowManagement;
+using Windows.ApplicationModel.Activation;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -58,7 +61,12 @@ namespace MyMusicApp
 
         MediaTimelineController mediaTimeline;
 
+        bool _isFullScreen = true;
+
+       
+
         #endregion
+
 
         public MainPage()
         {
@@ -77,6 +85,11 @@ namespace MyMusicApp
             mediaTimeline = new MediaTimelineController();
 
             mediaTimeline.PositionChanged += MediaTimelineController_PositionChanged;
+
+            ApplicationView.PreferredLaunchViewSize = new Size(3000, 2000);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
         }
 
         private async void AddTracs_Click(object sender, RoutedEventArgs e)
@@ -268,6 +281,6 @@ namespace MyMusicApp
         {
             mediaTimeline.Position = TimeSpan.FromSeconds(e.NewValue);
         }
-    }         
+    }
 }
 
