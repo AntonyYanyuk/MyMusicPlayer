@@ -63,7 +63,7 @@ namespace MyMusicApp
 
         bool _isFullScreen = true;
 
-       
+        bool isSongsListRemoved = false;
 
         #endregion
 
@@ -108,8 +108,10 @@ namespace MyMusicApp
             var files = await picker.PickMultipleFilesAsync();
             if (files.Count > 0)
             {
-                this.CurrentPlaylist.Visibility = 0;
                 this.CurrentSongsScroll.Visibility = 0;
+                this.CurrentSongsScroll.Visibility = 0;
+                this.SongsListTitle.Visibility = 0;
+                isSongsListRemoved = false;
 
                 foreach (Windows.Storage.StorageFile file in files)
                 {
@@ -131,112 +133,124 @@ namespace MyMusicApp
         {
             this.CurrentSong.Text = this.CurrentPlaylist.Items[0].ToString();
             this.CurrentPlaylist.SelectedItem = this.CurrentPlaylist.Items[0];
+            this.TrackDuration.Visibility = Visibility.Visible;
         }
 
         private void SelectedMusicListsItem(object sender, SelectionChangedEventArgs e)
         {
-            this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
-
-            mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex];
-
-            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Paused)
+            if (isSongsListRemoved == false)
             {
-                mediaTimeline.Start();
-                mediaTimeline.Pause();
-            }
-
-            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
-            {
-                mediaTimeline.Pause();
+                this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
 
                 mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex];
 
-                mediaTimeline.Start();
-            }
-        }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Exit();
+                if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Paused)
+                {
+                    mediaTimeline.Start();
+                    mediaTimeline.Pause();
+                }
+
+                if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+                {
+                    mediaTimeline.Pause();
+
+                    mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex];
+
+                    mediaTimeline.Start();
+                }               
+            }       
         }
 
         #region MusicPlayManagePanel 
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (this.CurrentPlaylist.SelectedIndex == default)
+            if (isSongsListRemoved == false)
             {
-                mediaPlayer.Source = storage[0];
-            }
-            mediaTimeline.Resume();
+                if (this.CurrentPlaylist.SelectedIndex == default)
+                {
+                    mediaPlayer.Source = storage[0];
+                }
+                mediaTimeline.Resume();
+            }        
         }
 
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
-            mediaTimeline.Pause();
+            if (isSongsListRemoved == false)
+            {
+                mediaTimeline.Pause();
+            }              
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            bool mediaPlayerCurrentState = false;
+            if (isSongsListRemoved == false)
+            {
+                bool mediaPlayerCurrentState = false;
 
-            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
-            {
-                mediaPlayerCurrentState = true;
-            }
+                if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+                {
+                    mediaPlayerCurrentState = true;
+                }
 
-            if (mediaPlayer.Source == storage[0])
-            {
-                mediaPlayer.Source = storage[0];
-            }
-            else
-            {
-                mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex - 1];
-                this.CurrentPlaylist.SelectedIndex = this.CurrentPlaylist.SelectedIndex - 1;
-                this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
-            }
+                if (mediaPlayer.Source == storage[0])
+                {
+                    mediaPlayer.Source = storage[0];
+                }
+                else
+                {
+                    mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex - 1];
+                    this.CurrentPlaylist.SelectedIndex = this.CurrentPlaylist.SelectedIndex - 1;
+                    this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
+                }
 
-            if (mediaPlayerCurrentState == true)
-            {
-                mediaTimeline.Start();
-            }
-            else
-            {
-                mediaTimeline.Start();
-                mediaTimeline.Pause();
+                if (mediaPlayerCurrentState == true)
+                {
+                    mediaTimeline.Start();
+                }
+                else
+                {
+                    mediaTimeline.Start();
+                    mediaTimeline.Pause();
+                }
             }
         }
 
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            bool mediaPlayerCurrentState = false;
+            if (isSongsListRemoved == false)
+            {
+                bool mediaPlayerCurrentState = false;
 
-            if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
-            {
-                mediaPlayerCurrentState = true;
-            }
+                if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+                {
+                    mediaPlayerCurrentState = true;
+                }
 
-            if (mediaPlayer.Source == storage[storage.Count - 1])
-            {
-                mediaPlayer.Source = storage[storage.Count - 1];
-            }
+                if (mediaPlayer.Source == storage[storage.Count - 1])
+                {
+                    mediaPlayer.Source = storage[storage.Count - 1];
+                }
 
-            else
-            {
-                mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex + 1];
-                this.CurrentPlaylist.SelectedIndex = this.CurrentPlaylist.SelectedIndex + 1;
-                this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
-            }
+                else
+                {
+                    mediaPlayer.Source = storage[this.CurrentPlaylist.SelectedIndex + 1];
+                    this.CurrentPlaylist.SelectedIndex = this.CurrentPlaylist.SelectedIndex + 1;
+                    this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
+                }
 
-            if (mediaPlayerCurrentState == true)
-            {
-                mediaTimeline.Start();
-            }
-            else
-            {
-                mediaTimeline.Start();
-                mediaTimeline.Pause();
-            }
+                if (mediaPlayerCurrentState == true)
+                {
+                    mediaTimeline.Start();
+                }
+                else
+                {
+                    mediaTimeline.Start();
+                    mediaTimeline.Pause();
+                }
+            }            
         }
 
         #endregion
@@ -280,6 +294,43 @@ namespace MyMusicApp
         private void Track_Rewind(object sender, RangeBaseValueChangedEventArgs e)
         {
             mediaTimeline.Position = TimeSpan.FromSeconds(e.NewValue);
+        }
+
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {         
+
+            if (this.CurrentPlaylist.Items.Count > 1 && this.CurrentPlaylist.SelectedIndex != 0)
+            {
+                int removeIndex = this.CurrentPlaylist.SelectedIndex;              
+                this.CurrentPlaylist.SelectedIndex = removeIndex - 1;
+                this.CurrentPlaylist.Items.RemoveAt(removeIndex);                             
+                storage.RemoveAt(removeIndex);
+            }
+            else if (this.CurrentPlaylist.SelectedIndex == 0 && this.CurrentPlaylist.Items.Count > 1)
+            {
+                int removeIndex = this.CurrentPlaylist.SelectedIndex;
+                this.CurrentPlaylist.SelectedIndex = removeIndex + 1;
+                this.CurrentPlaylist.Items.RemoveAt(removeIndex);                            
+                storage.RemoveAt(removeIndex);
+            }
+            else
+            {
+                if (mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
+                {
+                    mediaTimeline.Pause();
+                    mediaPlayer.Source = null;
+                }
+                int removeIndex = this.CurrentPlaylist.SelectedIndex;
+                this.CurrentSong.Text = " ";
+                this.TrackDuration.Visibility = Visibility.Collapsed;
+                this.CurrentTrackTimeProgress.Text = "00:00";
+                this.SoundProgressSlider.Value = 0;
+                this.CurrentSongsScroll.Visibility = Visibility.Collapsed;
+                this.SongsListTitle.Visibility = Visibility.Collapsed;
+                isSongsListRemoved = true;
+                this.CurrentPlaylist.Items.Clear();
+                storage.Clear();                
+            }                   
         }
     }
 }
