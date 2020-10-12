@@ -86,10 +86,11 @@ namespace MyMusicApp
 
             mediaTimeline.PositionChanged += MediaTimelineController_PositionChanged;
 
-            ApplicationView.PreferredLaunchViewSize = new Size(3000, 2000);
+            ApplicationView.PreferredLaunchViewSize = new Size(1500, 1000);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
+            
         }
 
         private async void AddTracs_Click(object sender, RoutedEventArgs e)
