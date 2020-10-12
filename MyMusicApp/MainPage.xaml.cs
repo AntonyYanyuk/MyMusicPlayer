@@ -86,12 +86,19 @@ namespace MyMusicApp
 
             mediaTimeline.PositionChanged += MediaTimelineController_PositionChanged;
 
-            ApplicationView.PreferredLaunchViewSize = new Size(1500, 1000);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-            
+            this.SizeChanged += Page_SizeChanged;
+
+            ApplicationView.PreferredLaunchViewSize = new Size(810, 610);
         }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width < 800 || e.NewSize.Height < 600)
+           {
+               ApplicationView.GetForCurrentView().TryResizeView(new Size(810, 610));
+            }
+        }
+
 
         private async void AddTracs_Click(object sender, RoutedEventArgs e)
         {
@@ -332,6 +339,10 @@ namespace MyMusicApp
                 this.CurrentPlaylist.Items.Clear();
                 storage.Clear();                
             }                   
+        }
+        public void MinAppSize()
+        {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(700, 700));
         }
     }
 }

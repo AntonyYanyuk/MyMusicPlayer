@@ -7,6 +7,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +25,9 @@ namespace MyMusicApp
     sealed partial class App : Application
     {
         bool isInBackgroundMode = false;
+        public SplashScreen splashScreen;
+       
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -41,9 +46,13 @@ namespace MyMusicApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
+        ///           
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 800)); // before Window.Current.Activate();
+            splashScreen = e.SplashScreen;
+            Frame rootFrame = Window.Current.Content as Frame;        
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -64,7 +73,7 @@ namespace MyMusicApp
             }
 
             if (e.PrelaunchActivated == false)
-            {
+            {            
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -73,10 +82,10 @@ namespace MyMusicApp
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 // Ensure the current window is active
+               
                 Window.Current.Activate();
             }
         }
-
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
