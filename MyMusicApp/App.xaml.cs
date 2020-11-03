@@ -50,9 +50,7 @@ namespace MyMusicApp
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 800)); // before Window.Current.Activate();
-            splashScreen = e.SplashScreen;
-            Frame rootFrame = Window.Current.Content as Frame;        
+            Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -73,7 +71,7 @@ namespace MyMusicApp
             }
 
             if (e.PrelaunchActivated == false)
-            {            
+            {
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -82,7 +80,6 @@ namespace MyMusicApp
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 // Ensure the current window is active
-               
                 Window.Current.Activate();
             }
         }

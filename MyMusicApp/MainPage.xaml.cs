@@ -49,6 +49,8 @@ namespace MyMusicApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+     
+
         #region Fields
 
         MediaPlayer mediaPlayer;
@@ -70,6 +72,7 @@ namespace MyMusicApp
 
         public MainPage()
         {
+
             this.InitializeComponent();
 
             mediaPlayer = new MediaPlayer();
@@ -88,16 +91,51 @@ namespace MyMusicApp
 
             this.SizeChanged += Page_SizeChanged;
 
-            ApplicationView.PreferredLaunchViewSize = new Size(810, 610);
-        }
+            ApplicationView.PreferredLaunchViewSize = new Size(930, 550);
+
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            
+                }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 800 || e.NewSize.Height < 600)
-           {
-               ApplicationView.GetForCurrentView().TryResizeView(new Size(810, 610));
+
+            if (e.NewSize.Width < 930 || e.NewSize.Height < 550)
+            {
+                ApplicationView.GetForCurrentView().TryResizeView(new Size(930, 550));
+            }
+
+            if (e.NewSize.Height >= 550)
+            {
+                this.CurrentPlaylist.Height = 360;
+                this.CurrentSongsScroll.Height = 360;
+            }
+
+            if (e.NewSize.Height > 650)
+            {
+                this.CurrentPlaylist.Height = 460;
+                this.CurrentSongsScroll.Height = 460;
+            }
+
+            if (e.NewSize.Height > 750)
+            {
+                this.CurrentPlaylist.Height = 560;
+                this.CurrentSongsScroll.Height = 560;
+            }
+
+            if (e.NewSize.Height > 850)
+            {
+                this.CurrentPlaylist.Height = 660;
+                this.CurrentSongsScroll.Height = 660;
+            }
+
+            if (e.NewSize.Height > 950)
+            {
+                this.CurrentPlaylist.Height = 760;
+                this.CurrentSongsScroll.Height = 760;
             }
         }
+
 
 
         private async void AddTracs_Click(object sender, RoutedEventArgs e)
@@ -339,10 +377,6 @@ namespace MyMusicApp
                 this.CurrentPlaylist.Items.Clear();
                 storage.Clear();                
             }                   
-        }
-        public void MinAppSize()
-        {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(700, 700));
         }
     }
 }
