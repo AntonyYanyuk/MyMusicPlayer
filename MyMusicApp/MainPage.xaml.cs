@@ -40,6 +40,7 @@ using Windows.UI.WindowManagement;
 using Windows.ApplicationModel.Activation;
 
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace MyMusicApp
@@ -48,8 +49,7 @@ namespace MyMusicApp
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {
-     
+    {    
 
         #region Fields
 
@@ -65,16 +65,16 @@ namespace MyMusicApp
 
         bool _isFullScreen = true;
 
-        bool isSongsListRemoved = false;
+        bool isSongsListRemoved = true;
 
         #endregion
-
 
         public MainPage()
         {
 
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             this.InitializeComponent();
-
+           
             mediaPlayer = new MediaPlayer();
 
             storage = new List<MediaSource>();
@@ -92,50 +92,323 @@ namespace MyMusicApp
             this.SizeChanged += Page_SizeChanged;
 
             ApplicationView.PreferredLaunchViewSize = new Size(930, 550);
-
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            
-                }
+
+            mySplitView.PaneOpened += PaneOpened;
+            mySplitView.PaneClosed += PaneClosed;
+        }
+
+        #region WindowSizeChanges 
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
-            if (e.NewSize.Width < 930 || e.NewSize.Height < 550)
+            if (e.NewSize.Width >= 930)
             {
-                ApplicationView.GetForCurrentView().TryResizeView(new Size(930, 550));
+                SoundProgressSlider.Width = 530;
+                VolumeSlider.Width = 150;
+                CurrentTrackTimeProgress.Margin = new Thickness(0, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 0, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 0, 5);
+                StackVolumeSlider.Margin = new Thickness(0, 0, 30, 8);
+                CurrentSong.Width = 500;
+                PanelMediaButt.Margin = new Thickness(0, 0, 0, 0);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 0, 0);
+                AppTitle.Margin = new Thickness(0, 0, 0, 0);
             }
 
-            if (e.NewSize.Height >= 550)
+            if (e.NewSize.Width < 930)
             {
-                this.CurrentPlaylist.Height = 360;
-                this.CurrentSongsScroll.Height = 360;
+                SoundProgressSlider.Width = 490;
+                VolumeSlider.Width = 140;
+                CurrentTrackTimeProgress.Margin = new Thickness(20, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 20, 0);
+                CurrentSong.Margin = new Thickness(40, 0, 0, 5);
             }
 
-            if (e.NewSize.Height > 650)
+            if (e.NewSize.Width < 895)
             {
-                this.CurrentPlaylist.Height = 460;
-                this.CurrentSongsScroll.Height = 460;
+                SoundProgressSlider.Width = 446;
+                VolumeSlider.Width = 130;
+                VolumeSlider.Margin = new Thickness(5, 0, 0, 5);
+                CurrentTrackTimeProgress.Margin = new Thickness(42, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 42, 0);
+                CurrentSong.Margin = new Thickness(80, 0, 0, 7);
+                CurrentSong.Width = 500;
             }
 
-            if (e.NewSize.Height > 750)
+            if (e.NewSize.Width < 842)
             {
-                this.CurrentPlaylist.Height = 560;
-                this.CurrentSongsScroll.Height = 560;
+                SoundProgressSlider.Width = 410;
+                VolumeSlider.Width = 120;
+                CurrentTrackTimeProgress.Margin = new Thickness(60, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 60, 0);
+                CurrentSong.Margin = new Thickness(20, 0, 0, 5);
+                StackVolumeSlider.Margin = new Thickness(0, 0, 40, 8);
+                CurrentSong.Width = 400;
             }
 
-            if (e.NewSize.Height > 850)
+            if (e.NewSize.Width < 820)
             {
-                this.CurrentPlaylist.Height = 660;
-                this.CurrentSongsScroll.Height = 660;
+                AppTitle.Margin = new Thickness(0, 0, 0, 0);
             }
 
-            if (e.NewSize.Height > 950)
+                if (e.NewSize.Width < 780)
             {
-                this.CurrentPlaylist.Height = 760;
-                this.CurrentSongsScroll.Height = 760;
+                SoundProgressSlider.Width = 370;
+                VolumeSlider.Width = 110;
+                CurrentTrackTimeProgress.Margin = new Thickness(81, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 81, 0);
+                CurrentSong.Margin = new Thickness(60, 0, 0, 5);
+                StackVolumeSlider.Margin = new Thickness(0, 0, 60, 8);
+                AppTitle.Margin = new Thickness(0, 0, 40, 0);
+            }
+
+            if (e.NewSize.Width < 765)
+            {
+                SoundProgressSlider.Width = 300;
+                VolumeSlider.Width = 90;
+                CurrentTrackTimeProgress.Margin = new Thickness(115, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 115, 0);
+                CurrentSong.Margin = new Thickness(60, 0, 0, 5);
+                StackVolumeSlider.Margin = new Thickness(0, 0, 70, 8);
+                AppTitle.Margin = new Thickness(0, 0, 55, 0);
+            }
+
+            if (e.NewSize.Width < 755)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 80, 8);
+                AppTitle.Margin = new Thickness(0, 0, 65, 0);
+            }
+
+
+            if (e.NewSize.Width < 745)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 90, 8);
+                AppTitle.Margin = new Thickness(0, 0, 75, 0);
+            }
+
+
+            if (e.NewSize.Width < 735)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 100, 8);
+                AppTitle.Margin = new Thickness(0, 0, 85, 0);
+            }
+
+
+            if (e.NewSize.Width < 725)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 110, 8);
+                AppTitle.Margin = new Thickness(0, 0, 95, 0);
+            }
+
+            if (e.NewSize.Width < 715)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 120, 8);
+                AppTitle.Margin = new Thickness(0, 0, 105, 0);
+            }
+
+            if (e.NewSize.Width < 705)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 130, 8);
+                AppTitle.Margin = new Thickness(0, 0, 115, 0);
+            }
+
+            if (e.NewSize.Width < 695)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 140, 8);
+                AppTitle.Margin = new Thickness(0, 0, 125, 0);
+            }
+
+            if (e.NewSize.Width < 685)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 150, 8);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 0, 0);
+                AppTitle.Margin = new Thickness(0, 0, 135, 0);
+            }
+
+            if (e.NewSize.Width < 675)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 155, 8);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 5, 0);
+                AppTitle.Margin = new Thickness(0, 0, 145, 0);
+            }
+
+            if (e.NewSize.Width < 667)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 165, 8);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 15, 0);
+                CurrentSong.Margin = new Thickness(60, 0, 0, 5);
+                CurrentSong.Width = 400;
+                AppTitle.Margin = new Thickness(0, 0, 155, 0);
+            }
+
+            if (e.NewSize.Width < 657)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 175, 8);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 25, 0);
+                CurrentSong.Margin = new Thickness(5, 0, 0, 5);
+                CurrentSong.Width = 350;
+                AppTitle.Margin = new Thickness(0, 0, 165, 0);
+            }
+
+            if (e.NewSize.Width < 649)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 185, 8);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 30, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 0, 0);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 0, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(115, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 115, 0);
+                AppTitle.Margin = new Thickness(0, 0, 175, 0);
+            }
+
+            if (e.NewSize.Width < 640)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 195, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 10, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 10, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(110, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 120, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 5, 5);
+                AppTitle.Margin = new Thickness(0, 0, 185, 0);
+            }
+
+            if (e.NewSize.Width < 630)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 205, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 20, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 20, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(105, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 125, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 15, 5);
+                AppTitle.Margin = new Thickness(0, 0, 195, 0);
+            }
+
+            if (e.NewSize.Width < 620)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 215, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 30, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 30, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(100, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 130, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 25, 5);
+                AppTitle.Margin = new Thickness(0, 0, 215, 0);
+            }
+
+            if (e.NewSize.Width < 610)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 225, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 40, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 40, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(95, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 135, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 35, 5);
+                AppTitle.Margin = new Thickness(0, 0, 225, 0);
+            }
+
+            if (e.NewSize.Width < 600)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 235, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 50, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 50, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(90, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 140, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 45, 5);
+                AppTitle.Margin = new Thickness(0, 0, 235, 0);
+            }
+
+            if (e.NewSize.Width < 590)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 245, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 60, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 60, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(85, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 145, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 55, 5);
+                AppTitle.Margin = new Thickness(0, 0, 245, 0);
+            }
+
+            if (e.NewSize.Width < 580)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 255, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 70, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 70, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(80, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 150, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 65, 5);
+                SoundProgressSlider.Width = 300;
+                VolumeSlider.Width = 90;
+                AppTitle.Margin = new Thickness(0, 0, 255, 0);
+            }
+
+            if (e.NewSize.Width < 570)
+            {
+                SoundProgressSlider.Width = 240;
+                VolumeSlider.Width = 70;
+                StackVolumeSlider.Margin = new Thickness(0, 0, 265, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 80, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 80, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(105, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 185, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 30, 5);
+                AppTitle.Margin = new Thickness(0, 0, 265, 0);
+            }
+
+            if (e.NewSize.Width < 560)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 275, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 90, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 90, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(100, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 190, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 40, 5);
+                AppTitle.Margin = new Thickness(0, 0, 275, 0);
+            }
+
+            if (e.NewSize.Width < 550)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 285, 17);
+                SoundProgressSlider.Margin = new Thickness(0, 10, 100, 0);
+                PanelMediaButt.Margin = new Thickness(0, 0, 100, 0);
+                CurrentTrackTimeProgress.Margin = new Thickness(95, 17, 0, 0);
+                TrackDuration.Margin = new Thickness(0, 17, 195, 0);
+                CurrentSong.Margin = new Thickness(0, 0, 50, 5);
+                AppTitle.Margin = new Thickness(0, 0, 300, 0);
+                AppTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+
+            if (e.NewSize.Width < 540)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 295, 17);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 30, 0);
+                AppTitle.Margin = new Thickness(0, 0, 315, 0);
+                AppTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+
+            if (e.NewSize.Width < 530)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 305, 17);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 40, 0);
+                AppTitle.HorizontalAlignment = HorizontalAlignment.Left;
+                AppTitle.Margin = new Thickness(100, 0, 0, 0);
+            }
+
+            if (e.NewSize.Width < 520)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 315, 17);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 50, 0);
+                AppTitle.Margin = new Thickness(90, 0, 350, 0);
+            }
+
+            if (e.NewSize.Width < 510)
+            {
+                StackVolumeSlider.Margin = new Thickness(0, 0, 325, 17);
+                GridPlayManagePanel.Margin = new Thickness(0, 0, 60, 0);
+                AppTitle.Margin = new Thickness(80, 0, 360, 0);
             }
         }
 
+        #endregion
 
 
         private async void AddTracs_Click(object sender, RoutedEventArgs e)
@@ -157,6 +430,7 @@ namespace MyMusicApp
                 this.CurrentSongsScroll.Visibility = 0;
                 this.CurrentSongsScroll.Visibility = 0;
                 this.SongsListTitle.Visibility = 0;
+                this.PanelButtAddRemove.Visibility = 0;
                 isSongsListRemoved = false;
 
                 foreach (Windows.Storage.StorageFile file in files)
@@ -167,6 +441,7 @@ namespace MyMusicApp
 
                     storage.Add(media);
                 }
+                isSongsListRemoved = false;
 
                 mediaPlayer.Source = storage[0];
                 mediaPlayer.TimelineController = mediaTimeline;
@@ -277,7 +552,9 @@ namespace MyMusicApp
 
                 if (mediaPlayer.Source == storage[storage.Count - 1])
                 {
-                    mediaPlayer.Source = storage[storage.Count - 1];
+                    mediaPlayer.Source = storage[0];
+                    this.CurrentPlaylist.SelectedItem = this.CurrentPlaylist.Items[0];
+                    this.CurrentSong.Text = this.CurrentPlaylist.SelectedItem.ToString();
                 }
 
                 else
@@ -373,11 +650,41 @@ namespace MyMusicApp
                 this.SoundProgressSlider.Value = 0;
                 this.CurrentSongsScroll.Visibility = Visibility.Collapsed;
                 this.SongsListTitle.Visibility = Visibility.Collapsed;
+                this.PanelButtAddRemove.Visibility = Visibility.Collapsed;
                 isSongsListRemoved = true;
                 this.CurrentPlaylist.Items.Clear();
                 storage.Clear();                
             }                   
         }
+
+        private void HamburgerMenu_Click(object sender, RoutedEventArgs e)
+        {
+            mySplitView.IsPaneOpen = !mySplitView.IsPaneOpen;
+        }
+
+        private void PaneOpened(SplitView sender, object e)
+        {
+                     
+            if ( sender.IsPaneOpen == true)
+            { 
+                AddingTracs.Visibility = Visibility.Visible;
+                SavingPlaylist.Visibility = Visibility.Visible; 
+                mySplitView.Style = Application.Current.Resources["SplitViewOpenedStyle"] as Style;
+                HamburgerMenu.Style = Application.Current.Resources["HamburgerButt2"] as Style;
+            }     
+               
+        }
+        private void PaneClosed(SplitView sender, object e)
+        {
+            if (sender.IsPaneOpen == false)
+            {
+                AddingTracs.Visibility = Visibility.Collapsed;
+                SavingPlaylist.Visibility = Visibility.Collapsed;
+                mySplitView.Style = Application.Current.Resources["SplitViewClosedStyle"] as Style;
+                HamburgerMenu.Style = Application.Current.Resources["HamburgerButt1"] as Style;
+            }
+        }
+
     }
 }
 

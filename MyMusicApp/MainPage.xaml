@@ -1,4 +1,4 @@
-﻿ <Page Name="Page"
+﻿<Page Name="Page"
     x:Class="MyMusicApp.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,58 +18,77 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50" MinWidth="50" MaxWidth="50"></ColumnDefinition>
+            <ColumnDefinition x:Name="gridColumnZero" Width="*" MinWidth="50" MaxWidth="50"></ColumnDefinition>
             <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
             <ColumnDefinition Width="270" MaxWidth="270" MinWidth="250"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <RelativePanel x:Name="TopPanel" Background="#FF75C3C0" Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch">
-            
+        <SplitView x:Name="mySplitView" DisplayMode="CompactOverlay" Style="{StaticResource SplitViewClosedStyle}" OpenPaneLength="200" CompactPaneLength="40" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" Margin="0,3,0,110"
+                   IsPaneOpen="False" Background="#FF4B8BB8">
+            <SplitView.Pane>
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="HamburgerMenu" Margin="2,2,0,0" Height="32" Width="38" Style="{StaticResource HamburgerButt1}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                         BorderThickness="1" Click="HamburgerMenu_Click" Foreground="#FF0B122C" >
+                        <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <SymbolIcon  Symbol="GlobalNavigationButton" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FF75C3C0" />
+                        </Grid>
+                    </Button>
+                    <Button x:Name="AddingTracs" Content="Open files" Visibility="Collapsed" BorderThickness="1" Margin="2,10,0,0" Width="117" FontWeight="Medium" FontSize="20" FontFamily="calibri" BorderBrush="#FF406666" Background="#FF75C3C0" Click="AddTracs_Click"></Button>
+                    <Button x:Name="SavingPlaylist" Content="Save playlist" Visibility="Collapsed" BorderThickness="1" Margin="2,10,0,0" FontWeight="Medium" FontSize="20" FontFamily="calibri" BorderBrush="#FF406666" Background="#FF75C3C0" Click="AddTracs_Click"></Button>
+                    <TextBlock x:Name="PlaylistsText" Text="Playlists" Visibility="Collapsed" Margin="2,10,0,0" FontWeight="Medium" FontSize="20" FontFamily="calibri">
+                    </TextBlock>
+                    <ScrollViewer x:Name="PLaylistsScroll" Visibility="Collapsed"  Margin="0,2,0,0"  Width="190" Height="auto"  HorizontalScrollBarVisibility="Disabled"  VerticalScrollBarVisibility="Auto" Background="#FF75C3C0">
+                        <StackPanel>
+                            <ListBox x:Name="PlaylistsList" Width="190" Height="Auto" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Background="#FF314395" Visibility="Visible" SelectionChanged="SelectedMusicListsItem">
+                            </ListBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </SplitView.Pane>
+            <Grid >
+                <Image x:Name="SpaceImage" Source="/Assets/zemlya_iz_kosmosa_1280x800.jpg" HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="5, 20, 10, 36" ></Image>
+            </Grid>
+        </SplitView>
+        <RelativePanel x:Name="TopPanel" Background="#FF75C3C0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+
         </RelativePanel>
 
-        <RelativePanel x:Name="PanelButtAddRemove" Grid.Row="2" Grid.Column="2" Height="36" Width="82" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF0DD3D3">
-            <Button x:Name="Remove" Margin="42,2,0,0" Height="32" Width="38" Background="#FF4B8BB8" Click="Remove_Click" >
+
+        <RelativePanel x:Name="PanelButtAddRemove" Visibility="Collapsed" Grid.Row="1" Grid.Column="2" Height="32" Width="74" Margin="0,21,20,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF0DD3D3">
+            <Button x:Name="Remove" Margin="38,2,0,0" Height="28" Width="34" Background="#FF4B8BB8" Click="Remove_Click" >
                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <SymbolIcon  Symbol="Remove" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
 
-            <Button Name="AddTracs" Height="32" Width="38"  Margin="2,2,0,0" Click="AddTracs_Click" Background="#FF4B8BB8" >
+            <Button Name="AddTracs" Height="28" Width="34"  Margin="2,2,0,0" Click="AddTracs_Click" Background="#FF4B8BB8" >
                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <SymbolIcon  Symbol="Add" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
         </RelativePanel>
 
-        
-
-        <ListBox x:Name="Playlists" Grid.RowSpan="3" Grid.Column="0"  Width="265" Height="600" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 50" Background="#FF58A9BB" Visibility="Collapsed">
-        </ListBox>
-
-        <ScrollViewer x:Name="CurrentSongsScroll" Grid.Row="1" Grid.Column="2" Margin="0,40, 10, 0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="270" Height="360"  HorizontalScrollBarVisibility="Disabled" Visibility="Visible" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="CurrentSongsScroll" Grid.Row="1" Grid.Column="2" Margin="0,60, 10, 0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="270" Height="Auto"  HorizontalScrollBarVisibility="Disabled" Visibility="Visible" VerticalScrollBarVisibility="Auto" Background="#FF75C3C0">
             <StackPanel>
-                <ListBox x:Name="CurrentPlaylist"  Width="265" Height="360" HorizontalAlignment="Right" Margin="0, 0, 0, 0" Background="#FF58A9BB" Visibility="Visible" SelectionChanged="SelectedMusicListsItem">
+                <ListBox x:Name="CurrentPlaylist"  Width="265" Height="Auto" HorizontalAlignment="Right" Margin="0, 0, 0, 0" Background="#FF58A9BB" Visibility="Visible" SelectionChanged="SelectedMusicListsItem">
                 </ListBox>
             </StackPanel>
         </ScrollViewer>
 
-        <TextBlock x:Name="PlaylistsText" Grid.Row="1" Grid.Column="0" Text="PLAYLISTS" FontWeight="ExtraBold" FontFamily="Calibri" FontSize="18" Margin="12, 23, 0, 0" Foreground="Black" Visibility="Collapsed"></TextBlock>
-
         <TextBlock x:Name="PlaylistsTitle" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Playlists" Visibility="Collapsed" Margin="10,0,0,110" FontWeight="Bold" FontFamily="calibri" TextWrapping="Wrap" FontSize="32" Width="340" Height="50" Foreground="#FF080808"></TextBlock>
 
-        <TextBlock x:Name="SongsListTitle" Visibility="Visible" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Text="Tracks" Margin="0,3,0,19" FontWeight="Bold" FontFamily="calibri" TextWrapping="Wrap" FontSize="32" Width="340" Height="50" Foreground="#FF080808"></TextBlock>
+        <TextBlock x:Name="SongsListTitle" Visibility="Collapsed" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Text="Tracks" Margin="0,20,0,19" FontWeight="Bold" FontFamily="calibri" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="32" Width="140" Height="50" Foreground="#FF080808"></TextBlock>
 
-        <TextBlock x:Name="AppTitle" Visibility="Visible" Grid.RowSpan="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="Space Player version 1.0" Margin="0,0,0,0"  FontWeight="ExtraBold" FontFamily="Consolas" TextWrapping="Wrap" FontSize="28" Width="370" Height="34" Foreground="#FF5C57C1" FocusVisualPrimaryBrush="#FF6B7091"></TextBlock>
+        <TextBlock x:Name="AppTitle" Visibility="Visible" Grid.Row="0" Grid.ColumnSpan="3"  VerticalAlignment="Stretch" HorizontalAlignment="Center" Text="Space Player version 1.0" Margin="0,0,0,0"  FontWeight="ExtraBold" FontFamily="Calibri" TextWrapping="Wrap" FontSize="28" Width="280" Height="34" Foreground="#FF5C57C1" FocusVisualPrimaryBrush="#FF6B7091"></TextBlock>
+    
 
-        <Image x:Name="SpaceImage" Source="/Assets/zemlya_iz_kosmosa_1280x800.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0, 10, 10, 10" ></Image>
-
-        <StackPanel Grid.Row="2" Grid.Column="2"  VerticalAlignment="Bottom" Height="28" Margin="0,0,0,10" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Image Source="/Assets/icons8-средняя-громкость-50.png" Height="26" Width="26" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 4 0 0"></Image>
-            <Slider x:Name="VolumeSlider" Width="150" Height="30" FocusVisualPrimaryBrush="#FFE43535" Foreground="#FF384D39" Background="LimeGreen" Margin="5 0 0 0" ValueChanged="VolumeValueChanged" HorizontalAlignment="Right" ></Slider>
+        <StackPanel x:Name="StackVolumeSlider" Grid.Row="2" Grid.ColumnSpan="3"  VerticalAlignment="Bottom" Height="50" Margin="0,0,30,8" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Image x:Name="VolumeImage" Source="/Assets/icons8-средняя-громкость-50.png" Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0, 2, 0, 0"></Image>
+            <Slider x:Name="VolumeSlider" Width="150" Height="28" FocusVisualPrimaryBrush="#FFE43535" Foreground="#FF384D39" Background="LimeGreen" Margin="1, 0, 0, 0" ValueChanged="VolumeValueChanged" VerticalAlignment="Center" HorizontalAlignment="Right" ></Slider>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" >
-            <Grid Grid.RowSpan="4" Grid.Column="1" Width="620" Height="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
+            <Grid x:Name="GridPlayManagePanel" Grid.RowSpan="4" Grid.Column="1" Width="604" Height="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
                 <RelativePanel x:Name="PanelMediaButt"  Height="39" Width="162" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF0DD3D3">
                     <Button x:Name="Next" Margin="122,2,0,0" HorizontalAlignment="Right" Height="35" Width="38" Background="#FF4B8BB8" Click="Next_Click" ClickMode="Release" >
                         <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -97,12 +116,12 @@
                 </RelativePanel>
 
                 <TextBlock x:Name="CurrentSong" TextWrapping="NoWrap" Width="500" Margin="0,0,0,5" Height="auto" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontFamily="calibri" FontSize="18" Foreground="#FF080808"></TextBlock>
-                <TextBlock x:Name="CurrentTrackTimeProgress" Width="34" Height="20" Text="00:00" Margin="7,17,0,0" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="TrackDuration" Text="00:00" Width="34" Height="20" FontSize="14" Margin="0,17,9,0" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
+                <TextBlock x:Name="CurrentTrackTimeProgress" Width="34" Height="20" Text="00:00" Margin="0,17,0,0" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="TrackDuration" Text="00:00" Width="34" Height="20" FontSize="14" Margin="0,17,1,0" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
                 <Slider x:Name="SoundProgressSlider" Width="530" Height="32"  Margin="0,10,0,0" IsThumbToolTipEnabled="False" TickPlacement="TopLeft" Style="{StaticResource CircleSlider}"  ValueChanged="Track_Rewind"></Slider>
             </Grid>
         </StackPanel>
-        
+
     </Grid>
 </Page>
 
