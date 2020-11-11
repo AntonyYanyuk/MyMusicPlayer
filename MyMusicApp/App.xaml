@@ -85,11 +85,19 @@
             <Setter Property="Background" Value="#FF4B8BB8"/>
             <Setter Property="BorderBrush" Value="#FF0DD3D3" />
         </Style>
-        
+
         <Style x:Key="HamburgerButt2" TargetType="Button">
             <Setter Property="Background" Value="#FF75C3C0"/>
             <Setter Property="BorderBrush" Value="#FF406666" />
         </Style>
-    </Application.Resources>
 
+        <Style x:Key="RandomTrackButtStyle1" TargetType="Button">
+            <Setter Property="Background" Value="#FF4B8BB8"/>
+        </Style>
+
+        <Style x:Key="RandomTrackButtStyle2" TargetType="Button">
+            <Setter Property="Background" Value= "#FF4BA9B8"/>
+        </Style>
+
+    </Application.Resources>
 </Application>
