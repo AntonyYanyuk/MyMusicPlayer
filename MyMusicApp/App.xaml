@@ -93,10 +93,22 @@
 
         <Style x:Key="RandomTrackButtStyle1" TargetType="Button">
             <Setter Property="Background" Value="#FF4B8BB8"/>
+            <Setter Property="BorderBrush" Value="Black"/>
         </Style>
 
         <Style x:Key="RandomTrackButtStyle2" TargetType="Button">
-            <Setter Property="Background" Value= "#FF4BA9B8"/>
+            <Setter Property="Background" Value= "#FF6ABFB0"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
+
+        <Style x:Key="RepeatButtStyle1" TargetType="Button">
+            <Setter Property="Background" Value="#FF4B8BB8"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
+
+        <Style x:Key="RepeatButtStyle2" TargetType="Button">
+            <Setter Property="Background" Value= "#FF6ABFB0"/>
+            <Setter Property="BorderBrush" Value="Black"/>
         </Style>
 
     </Application.Resources>
