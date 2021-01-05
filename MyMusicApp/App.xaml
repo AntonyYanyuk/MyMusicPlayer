@@ -7,6 +7,11 @@
     <Application.Resources>
         <Style x:Key="CircleSlider" TargetType="Slider">
             <Setter Property="Background" Value="LimeGreen"></Setter>
+            <Setter Property="Width" Value="530"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="IsThumbToolTipEnabled" Value="False"/>
+            <Setter Property="TickPlacement" Value="TopLeft"/>
             <Setter Property="BorderBrush" Value="LightSteelBlue"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Foreground" Value="Blue"/>
@@ -50,7 +55,7 @@
                                     <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw" Background="{ThemeResource SliderThumbBackgroundThemeBrush}"
                                            Grid.Column="1" DataContext="{TemplateBinding Value}" Grid.Row="1" Style="{StaticResource SliderThumbStyle}" Height="13" Width="13"/>
                                 </Grid>
-                                <Grid x:Name="VerticalTemplate" Visibility="Collapsed">
+                                <Grid x:Name="VerticalTemplate" Visibility="Visible">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="17"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -74,11 +79,75 @@
             </Setter>
         </Style>
 
+        <Style x:Key="VolumeSliderStyle" TargetType="Slider">
+            <Setter Property="Background" Value= "LimeGreen"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style x:Key="PLaylistsScrollStyle" TargetType="ScrollViewer">
+            <Setter Property="Background" Value= "#FF75C3C0"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+        </Style>
+
+        <Style x:Key="CurrentSongsScrollStyle" TargetType="ScrollViewer">
+            <Setter Property="Background" Value= "#FF75C3C0"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Width" Value="270"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Grid.Row" Value="0"/>
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style x:Key="CurrentPlaylistStyle" TargetType="ListBox">
+            <Setter Property="Background" Value= "#FF58A9BB"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+        </Style>
+
+        <Style x:Key="PLaylistsListStyle" TargetType="ListBox">
+            <Setter Property="Background" Value= "#FFDDF0EF"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+        </Style>
+
+        <Style x:Key="VolumeImageStyle" TargetType="Image">
+            <Setter Property="Source" Value= "/Assets/icons8-средняя-громкость-50.png"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="PanelButtAddRemoveStyle" TargetType="RelativePanel">
+            <Setter Property="Grid.Row" Value="0"/>
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Width" Value="74"/>
+            <Setter Property="Background" Value="#FF0DD3D3"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
         <Style x:Key="SplitViewOpenedStyle" TargetType="SplitView">
             <Setter Property="PaneBackground" Value="#FF75C3C0"/>
+            <Setter Property="OpenPaneLength" Value="200"/>
         </Style>
+        
         <Style x:Key="SplitViewClosedStyle" TargetType="SplitView">
             <Setter Property="PaneBackground" Value="#FF4B8BB8"/>
+            <Setter Property="OpenPaneLength" Value="200"/>
         </Style>
 
         <Style x:Key="HamburgerButt1" TargetType="Button">
@@ -91,24 +160,104 @@
             <Setter Property="BorderBrush" Value="#FF406666" />
         </Style>
 
+        <Style x:Key="SplitViewButtStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF406666"/>
+            <Setter Property="Background" Value="#FF75C3C0"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="FontStretch" Value="SemiCondensed"/>
+            <Setter Property="FontFamily" Value="calibri"/>
+            <Setter Property="Margin" Value="4,10,0,0"/>
+        </Style>
+        
         <Style x:Key="RandomTrackButtStyle1" TargetType="Button">
             <Setter Property="Background" Value="#FF4B8BB8"/>
             <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
         </Style>
 
         <Style x:Key="RandomTrackButtStyle2" TargetType="Button">
             <Setter Property="Background" Value= "#FF6ABFB0"/>
             <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
         </Style>
 
         <Style x:Key="RepeatButtStyle1" TargetType="Button">
             <Setter Property="Background" Value="#FF4B8BB8"/>
             <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Height" Value="31"/>
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
         </Style>
 
         <Style x:Key="RepeatButtStyle2" TargetType="Button">
             <Setter Property="Background" Value= "#FF6ABFB0"/>
             <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Height" Value="31"/>
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
+        </Style>
+
+        <Style x:Key="PanelMediaButtStyle" TargetType="Button">
+            <Setter Property="Background" Value= "#FF4B8BB8"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="38"/>
+        </Style>
+
+        <Style x:Key="AppTitleStyle" TargetType="TextBlock">
+            <Setter Property="Grid.Row" Value="0"/>
+            <Setter Property="Grid.ColumnSpan" Value="3"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontFamily" Value="calibri"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Foreground" Value="#FF5C57C1"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="Text" Value="Space Player"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style x:Key="SongsListTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="calibri"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="176"/>
+            <Setter Property="Foreground" Value="#FF080808"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Text" Value="Tracks"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+        </Style>
+
+        <Style x:Key="CurrentSongStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="calibri"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Width" Value="600"/>
+            <Setter Property="Foreground" Value="#FF080808"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <Style x:Key="TrackDurationTimeProgressStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Foreground" Value="#FF080808"/>
+            <Setter Property="Text" Value="00:00"/>
         </Style>
 
     </Application.Resources>

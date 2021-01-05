@@ -10,14 +10,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid x:Name="TopBar" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid x:Name="TopBar" >
             <Grid x:Name="UserLayout" Background="#FF75C3C0" />
-                <Grid Canvas.ZIndex="1">
-                <TextBlock x:Name="AppTitle" Visibility="Visible" Grid.Row="0" Grid.ColumnSpan="3"  VerticalAlignment="Stretch" HorizontalAlignment="Center" Text="Space Player" Margin="0,0,0,0"  FontWeight="ExtraBold" FontFamily="Calibri" TextWrapping="Wrap" FontSize="28" Width="150" Height="34" Foreground="#FF5C57C1" FocusVisualPrimaryBrush="#FF6B7091"></TextBlock>
+            <Grid Canvas.ZIndex="1">
+                <TextBlock x:Name="AppTitle" Style="{StaticResource AppTitleStyle}" Visibility="Visible" Margin="0,0,0,0"></TextBlock>
                 <StackPanel HorizontalAlignment="Left">
                     <Button x:Name="CompactSizeButt"  Margin="2,2,0,0" VerticalAlignment="Top" Height="31" Width="40" Background="#FF75C3C0" Click="CompactSizeButt_Click">
                         <Grid Height="28" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -25,10 +25,9 @@
                         </Grid>
                     </Button>
                 </StackPanel>
-                
             </Grid>
-            </Grid>
-            <Grid Grid.Row="1">
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid x:Name="MainWindow" Background="#FF4B8BB8" >
 
                 <Grid.RowDefinitions>
@@ -37,40 +36,52 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="gridColumnZero" Width="*" MinWidth="50" MaxWidth="50"></ColumnDefinition>
+                    <ColumnDefinition x:Name="GridColumnZero" Width="*" MinWidth="50" MaxWidth="50"></ColumnDefinition>
                     <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
                     <ColumnDefinition Width="270" MaxWidth="270" MinWidth="250"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <SplitView x:Name="mySplitView" DisplayMode="CompactOverlay" Style="{StaticResource SplitViewClosedStyle}" OpenPaneLength="200" CompactPaneLength="40" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" Margin="0,3,0,110"
-                   IsPaneOpen="False" Background="#FF4B8BB8">
+                <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" Style="{StaticResource SplitViewClosedStyle}" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,3,0,110">
                     <SplitView.Pane>
                         <StackPanel Orientation="Vertical">
-                            <Button x:Name="HamburgerMenu" Margin="2,2,0,0" Height="32" Width="38" Style="{StaticResource HamburgerButt1}" HorizontalAlignment="Left" VerticalAlignment="Top"
-                         BorderThickness="1" Click="HamburgerMenu_Click" Foreground="#FF0B122C" >
+                            <Button x:Name="HamburgerMenu" Margin="4,2,0,0" Height="28" Width="38" Style="{StaticResource HamburgerButt1}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                     BorderThickness="1" Click="HamburgerMenu_Click" Foreground="#FF0B122C" >
                                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <SymbolIcon  Symbol="GlobalNavigationButton" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FF75C3C0" />
+                                    <SymbolIcon Symbol="GlobalNavigationButton" Height="30" Width="30" VerticalAlignment="Top" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FF75C3C0" Margin="0,-7,0,0"/>
                                 </Grid>
                             </Button>
-                            <Button x:Name="AddingTracs" Content="Open files" Visibility="Collapsed" BorderThickness="1" Margin="2,10,0,0" Width="117" FontWeight="Medium" FontSize="20" FontFamily="calibri" BorderBrush="#FF406666" Background="#FF75C3C0" Click="AddTracs_Click"></Button>
-                            <Button x:Name="SavingPlaylist" Content="Save playlist" Visibility="Collapsed" BorderThickness="1" Margin="2,10,0,0" FontWeight="Medium" FontSize="20" FontFamily="calibri" BorderBrush="#FF406666" Background="#FF75C3C0"></Button>
-                            <TextBlock x:Name="PlaylistsText" Text="Playlists" Visibility="Collapsed" Margin="2,10,0,0" FontWeight="Medium" FontSize="20" FontFamily="calibri">
+                            <Button x:Name="AddingTracs" Content="Open files" Style="{StaticResource SplitViewButtStyle}" Visibility="Collapsed" Click="AddTracs_Click"></Button>
+
+                            <PasswordBox x:Name="TextBoxCreateNewPlaylist" PlaceholderText="Create new playlist" Visibility="Collapsed" KeyDown="PasswordBoxCreateNewPlaylist_KeyDown" Margin="3,10,3,0" PasswordRevealMode="Visible"></PasswordBox>
+
+                            <TextBlock x:Name="ErrorTextNewPlaylist" Visibility="Collapsed" Text="" Margin="4,1,0,0" FontWeight="Bold" FontSize="14" FontFamily="calibri">
                             </TextBlock>
-                            <ScrollViewer x:Name="PLaylistsScroll" Visibility="Collapsed"  Margin="0,2,0,0"  Width="190" Height="auto"  HorizontalScrollBarVisibility="Disabled"  VerticalScrollBarVisibility="Auto" Background="#FF75C3C0">
+                            
+                            <TextBlock x:Name="PlaylistsText" Text="Playlists" Visibility="Collapsed" Margin="4,10,0,0" FontWeight="Medium" FontSize="20" FontFamily="calibri">
+                            </TextBlock>
+
+                            <ScrollViewer x:Name="PLaylistsScroll" Style="{StaticResource PLaylistsScrollStyle}" Visibility="Collapsed" Margin="4,4,4,0" Height="720">
                                 <StackPanel>
-                                    <ListBox x:Name="PlaylistsList" Width="190" Height="Auto" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Background="#FF314395" Visibility="Visible" SelectionChanged="SelectedMusicListsItem">
+                                    <ListBox x:Name="PlaylistsList" Style="{StaticResource PLaylistsListStyle}">
+                                        <ListBox.ContextFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem x:Name="OpenPlaylist" Text="Open" Click="OpenPlaylist_Click" Visibility="Collapsed"/>
+                                                <MenuFlyoutItem x:Name="AddFiles" Text="Add files" Click="AddFilesToPlaylist_Click" Visibility="Collapsed"/>
+                                                <MenuFlyoutItem x:Name="RemoveList" Text="Remove" Click="RemoveList_Click" Visibility="Collapsed"/>
+                                            </MenuFlyout>
+                                        </ListBox.ContextFlyout>
                                     </ListBox>
                                 </StackPanel>
                             </ScrollViewer>
                         </StackPanel>
                     </SplitView.Pane>
                     <Grid >
-                        <Image x:Name="SpaceImage" Source="/Assets/zemlya_iz_kosmosa_1280x800.jpg" HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="5, 2, 5, 0" ></Image>
+                        <Image x:Name="SpaceImage" Source="/Assets/zemlya_iz_kosmosa_1280x800.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,2,5,0"/>
                     </Grid>
                 </SplitView>
 
-                <RelativePanel x:Name="PanelButtAddRemove" Visibility="Collapsed" Grid.Row="0" Grid.Column="2" Height="32" Width="74" Margin="0,21,20,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF0DD3D3">
-                    <Button x:Name="Remove" Margin="38,2,0,0" Height="28" Width="34" Background="#FF4B8BB8" Click="Remove_Click" >
+                <RelativePanel x:Name="PanelButtAddRemove" Style="{StaticResource PanelButtAddRemoveStyle}" Visibility="Collapsed" Margin="0,24,10,0">
+                    <Button x:Name="Remove" Margin="38,2,0,0" Height="28" Width="34" Background="#FF4B8BB8" Click="Remove_Click">
                         <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <SymbolIcon  Symbol="Remove" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Grid>
@@ -83,51 +94,59 @@
                     </Button>
                 </RelativePanel>
 
-                <ScrollViewer x:Name="CurrentSongsScroll" Grid.Row="0" Grid.Column="2" Margin="0,60, 10, 0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="270" Height="Auto"  HorizontalScrollBarVisibility="Disabled" Visibility="Visible" VerticalScrollBarVisibility="Auto" Background="#FF75C3C0">
+                <ScrollViewer x:Name="CurrentSongsScroll" Style="{StaticResource CurrentSongsScrollStyle}" Margin="0,60,10,0" Visibility="Visible">
                     <StackPanel>
-                        <ListBox x:Name="CurrentPlaylist"  Width="265" Height="Auto" HorizontalAlignment="Right" Margin="0, 0, 0, 0" Background="#FF58A9BB" Visibility="Visible" SelectionChanged="SelectedMusicListsItem">
+                        <ListBox x:Name="CurrentPlaylist"  Style="{StaticResource CurrentPlaylistStyle}" SelectionChanged="SelectedMusicListsItem">
+                            <ListBox.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Add files" Click="AddTracs_Click" />
+                                    <MenuFlyoutItem x:Name="SelectAll" Text="Select all" Click="SelectAll_Click"/>
+                                    <MenuFlyoutItem x:Name="CancelSelection" Text="Cancel selection" Click="CancelSelection_Click"/>
+                                    <MenuFlyoutItem Text="Remove" Click="Remove_Click"/>
+                                </MenuFlyout>
+                            </ListBox.ContextFlyout>
                         </ListBox>
                     </StackPanel>
                 </ScrollViewer>
 
-                <TextBlock x:Name="SongsListTitle" Visibility="Collapsed" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Text="Tracks" Margin="0,20,0,19" FontWeight="Bold" FontFamily="calibri" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="32" Width="140" Height="50" Foreground="#FF080808"></TextBlock>
+                <TextBlock x:Name="SongsListTitle" Visibility="Collapsed" Style="{StaticResource SongsListTitleStyle}" Grid.Row="0" Grid.Column="2" Margin="0,35,0,19" ></TextBlock>
 
                 <RelativePanel x:Name="RelativeMainWithElements" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,0,0,0">
 
                     <Grid x:Name="StackPlayManagePanel"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
-                        <Button x:Name="RepeatButt" Margin="0,12,270,0" Style = "{StaticResource RepeatButtStyle1}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="31" Width="38" BorderThickness="1.2" Click="RepeatButt_Click">
+                        <Button x:Name="RepeatButt" Margin="0,12,270,0" Style="{StaticResource RepeatButtStyle1}" HorizontalAlignment="Center" VerticalAlignment="Top" Click="RepeatButt_Click">
                             <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <SymbolIcon x:Name="CompactSymbol12"  Symbol="RepeatAll" Height="22" Width="22" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Button>
 
-                        <Button x:Name="RandomTrackButt" Style = "{StaticResource RandomTrackButtStyle1}" Visibility="Visible" Margin="270,18,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="26" Width="40"  BorderThickness="1.2" Click="RandomTrackButt_Click">
+                        <Button x:Name="RandomTrackButt" Style="{StaticResource RandomTrackButtStyle1}" Margin="270,18,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Click="RandomTrackButt_Click">
                             <Grid Height="28" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <SymbolIcon Symbol="Shuffle" Height="28" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Button>
 
-                        <RelativePanel x:Name="PanelMediaButt"  Height="39" Width="162" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF0DD3D3">
-                            <Button x:Name="Next" Margin="122,2,0,0" HorizontalAlignment="Right" Height="35" Width="38" Background="#FF4B8BB8" Click="Next_Click" ClickMode="Release" >
+                        <RelativePanel x:Name="PanelMediaButt" Height="39" Width="162" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF0DD3D3">
+                            <Button x:Name="Next" Margin="122,2,0,0" Style = "{StaticResource PanelMediaButtStyle}" HorizontalAlignment="Right" Click="Next_Click" ClickMode="Release" >
                                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <SymbolIcon  Symbol="Next" Height="35" Width="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
                             </Button>
 
-                            <Button x:Name="Pause" Margin="42,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="35" Width="38" Background="#FF4B8BB8" Click="Pause_Click" ClickMode="Release">
+                            <Button x:Name="Pause" Style="{StaticResource PanelMediaButtStyle}" Margin="42,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Pause_Click" ClickMode="Release">
                                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <SymbolIcon  Symbol="Pause" Height="35" Width="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
                             </Button>
 
-                            <Button x:Name="Play" Margin="82,2,0,0" HorizontalAlignment="Right" Height="35" Width="38" Background="#FF4B8BB8" Click="Play_Click" ClickMode="Release">
+                            <Button x:Name="Play" Style="{StaticResource PanelMediaButtStyle}" Margin="82,2,0,0" HorizontalAlignment="Right" Click="Play_Click" ClickMode="Release">
                                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <SymbolIcon  Symbol="Play" Height="35" Width="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
                             </Button>
 
-                            <Button x:Name="Previous" Margin="2,2,0,0" HorizontalAlignment="Right" Height="35" Width="38" Background="#FF4B8BB8" Click="Previous_Click" ClickMode="Release" >
+                            <Button x:Name="Previous" Style="{StaticResource PanelMediaButtStyle}" Margin="2,2,0,0" HorizontalAlignment="Right" Click="Previous_Click" ClickMode="Release" >
                                 <Grid Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <SymbolIcon  Symbol="Previous" Height="35" Width="35" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
@@ -135,24 +154,21 @@
                         </RelativePanel>
 
                         <StackPanel x:Name="StackTrackProgress" Orientation="Horizontal" Height="38" HorizontalAlignment="Center" Margin="0,30,0,0">
-                            <TextBlock x:Name="CurrentTrackTimeProgress" Width="34" Height="20" Text="00:00" Margin="0,21,2,0" HorizontalAlignment="Left"/>
-                            <Slider x:Name="SoundProgressSlider" Width="530" Height="32"  Margin="0,10,0,0" IsThumbToolTipEnabled="False" HorizontalAlignment="Center" TickPlacement="TopLeft" Style="{StaticResource CircleSlider}"  ValueChanged="Track_Rewind"></Slider>
-                            <TextBlock x:Name="TrackDuration" Text="00:00" Width="34" Height="20" FontSize="14" Margin="2,21,0,0" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
+                            <TextBlock x:Name="CurrentTrackTimeProgress" Style="{StaticResource TrackDurationTimeProgressStyle}" Margin="0,21,2,0" HorizontalAlignment="Left"/>
+                            <Slider x:Name="SoundProgressSlider" Style="{StaticResource CircleSlider}" Margin="0,10,0,0" ValueChanged="Track_Rewind"></Slider>
+                            <TextBlock x:Name="TrackDuration" Style="{StaticResource TrackDurationTimeProgressStyle}" Margin="2,21,0,0" HorizontalAlignment="Right" Visibility="Collapsed"></TextBlock>
                         </StackPanel>
                     </Grid>
-                    <TextBlock x:Name="CurrentSong" TextWrapping="NoWrap" Width="600" Margin="0,72,0,0" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontFamily="calibri" FontSize="18" Foreground="#FF080808"></TextBlock>
+                    <TextBlock x:Name="CurrentSong" Style="{StaticResource CurrentSongStyle}" Margin="0,72,30,0" ></TextBlock>
                 </RelativePanel>
 
                 <StackPanel x:Name="StackVolumeSlider" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Height="50" Margin="0,0,20,16" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Image x:Name="VolumeImage" Source="/Assets/icons8-средняя-громкость-50.png" Height="22" Width="22" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0, 3, 0, 0"></Image>
-                    <Slider x:Name="VolumeSlider" Width="150" Height="28" FocusVisualPrimaryBrush="#FFE43535" Foreground="#FF384D39" Background="LimeGreen" Margin="1, 0, 0, 2" ValueChanged="VolumeValueChanged" VerticalAlignment="Center" HorizontalAlignment="Right" ></Slider>
+                    <Image x:Name="VolumeImage" Style="{StaticResource VolumeImageStyle}" Margin="0, 3, 0, 0"></Image>
+                    <Slider x:Name="VolumeSlider" Style="{StaticResource VolumeSliderStyle}" Margin="1, 0, 0, 2" ValueChanged="VolumeValueChanged" ></Slider>
                 </StackPanel>
-
             </Grid>
         </Grid>
-        </Grid>
-
-        
+    </Grid>
 </Page>
 
 
